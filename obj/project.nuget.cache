@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "bL6eFmrMYfk=",
+  "dgSpecHash": "+75vjvQOVIY=",
   "success": true,
   "projectFilePath": "C:\\Users\\narut\\Dev\\ws\\WebSocketCommunication\\WebSocketCommunication.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\narut\\.nuget\\packages\\fleck\\1.2.0\\fleck.1.2.0.nupkg.sha512",
     "C:\\Users\\narut\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.4\\microsoft.aspnetcore.openapi.9.0.4.nupkg.sha512",
     "C:\\Users\\narut\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
   ],

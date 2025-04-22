@@ -1,41 +1,24 @@
-var builder = WebApplication.CreateBuilder(args);
+using Fleck;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+var server = new WebSocketServer("ws://0.0.0.0:8181");
+var wsConenctions = new List<IWebSocketConnection>();
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+server.Start(ws =>
 {
-    app.MapOpenApi();
-}
+    ws.OnOpen = () =>
+    {
+        wsConenctions.Add(ws);
+    };
 
-app.UseHttpsRedirection();
+    ws.OnMessage = message =>
+    {
+        foreach (var webSocketConnection in wsConenctions)
+        {
+         if(ws != webSocketConnection){
+            webSocketConnection.Send(message);
+         }
+        }
+    };
+});
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
-
-app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
+WebApplication.CreateBuilder(args).Build().Run();
