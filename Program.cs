@@ -19,6 +19,16 @@ server.Start(ws =>
          }
         }
     };
+
+       ws.OnBinary = message =>
+    {
+        foreach (var webSocketConnection in wsConenctions)
+        {
+         if(ws != webSocketConnection){
+            webSocketConnection.Send(message);
+         }
+        }
+    };
 });
 
 WebApplication.CreateBuilder(args).Build().Run();
