@@ -29,6 +29,9 @@ server.Start(ws =>
          }
         }
     };
+    ws.OnClose = () => {
+        wsConenctions.Remove(ws);
+    };
 });
 
 WebApplication.CreateBuilder(args).Build().Run();
